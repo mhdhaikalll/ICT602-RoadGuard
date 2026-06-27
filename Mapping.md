@@ -14,21 +14,20 @@
 
 ## 2. Screen List & Mapping
 
-| # | Screen | Activity / Fragment | Layout XML | Notes |
-|---|--------|-------------------|-------------|-------|
-| 1 | Splash | `SplashActivity` | No layout (finishes immediately) | Redirects to login or main |
-| 2 | Login | `LoginActivity` | `activity_login.xml` | Email, password, Google Sign‑In |
-| 3 | Register | `RegisterActivity` | `activity_register.xml` | Name, email, password |
-| 4 | Forgot Password | `ForgotPasswordActivity` | `activity_forgot_password.xml` | Email input, reset |
-| 5 | Main container | `MainActivity` | `activity_main.xml` | Hosts bottom nav & NavHostFragment |
-| 6 | Map | `MapFragment` | `fragment_map.xml` | Full map, FAB, markers |
-| 7 | Report Form | `ReportFormActivity` | `activity_report_form.xml` | Map picker, severity, notes, submit |
-| 8 | Edit Report | `EditReportActivity` | `activity_edit_report.xml` | Pre‑filled form, update |
-| 9 | Report Detail (Bottom Sheet) | `ReportInfoBottomSheet` | `bottom_sheet_report_detail.xml` | Shown when a marker is tapped |
-|10 | My Reports | `MyReportsFragment` | `fragment_my_reports.xml` | RecyclerView list |
-|11 | Profile | `ProfileFragment` | `fragment_profile.xml` | User info, toggles (TTS, alerts, radius), logout |
-|12 | (Implied) Navigation graph | – | `res/navigation/bottom_nav_menu.xml` | Defines the 3 tabs: map, my_reports, profile |
-|13 | (Implied) Bottom menu | – | `res/menu/bottom_nav_menu.xml` | Icons & titles for tabs |
+| #  | Screen | Activity / Fragment | Layout XML | Notes |
+|----|--------|-------------------|-------------|-------|
+| 1  | Splash | `SplashActivity` | No layout (finishes immediately) | Redirects to login or main |
+| 2  | Login | `LoginActivity` | `activity_login.xml` | Email, password, Google Sign‑In |
+| 3  | Register | `RegisterActivity` | `activity_register.xml` | Name, email, password |
+| 4  | Main container | `MainActivity` | `activity_main.xml` | Hosts bottom nav & NavHostFragment |
+| 5  | Map | `MapFragment` | `fragment_map.xml` | Full map, FAB, markers |
+| 6  | Report Form | `ReportFormActivity` | `activity_report_form.xml` | Map picker, severity, notes, submit |
+| 7  | Edit Report | `EditReportActivity` | `activity_edit_report.xml` | Pre‑filled form, update |
+| 8  | Report Detail (Bottom Sheet) | `ReportInfoBottomSheet` | `bottom_sheet_report_detail.xml` | Shown when a marker is tapped |
+| 9  | My Reports | `MyReportsFragment` | `fragment_my_reports.xml` | RecyclerView list |
+| 10 | Profile | `ProfileFragment` | `fragment_profile.xml` | User info, toggles (TTS, alerts, radius), logout |
+| 11 | (Implied) Navigation graph | – | `res/navigation/bottom_nav_menu.xml` | Defines the 3 tabs: map, my_reports, profile |
+| 12 | (Implied) Bottom menu | – | `res/menu/bottom_nav_menu.xml` | Icons & titles for tabs |
 
 ---
 
@@ -38,8 +37,7 @@
 SplashActivity
  ├─ (authenticated) → MainActivity
  └─ (not authenticated) → LoginActivity
-       ├─ RegisterActivity
-       └─ ForgotPasswordActivity
+       └─ RegisterActivity
 
 MainActivity
  ├─ Tab 1: MapFragment
@@ -65,7 +63,6 @@ MainActivity
 - **Button**: `btnLogin` (click → login)
 - **Button**: `btnGoogleSignIn` (click → Google Sign‑In)
 - **TextView**: `tvRegisterLink` (clickable, opens RegisterActivity)
-- **TextView**: `tvForgotPassword` (clickable, opens ForgotPasswordActivity)
 - **TextView**: `tvError` (displays error message)
 
 ### 4.2 `activity_register.xml`
@@ -75,20 +72,15 @@ MainActivity
 - **Button**: `btnRegister`
 - **TextView**: `tvError`
 
-### 4.3 `activity_forgot_password.xml`
-- **EditText**: `etEmail`
-- **Button**: `btnReset`
-- **TextView**: `tvMessage` (shows status/error)
-
-### 4.4 `activity_main.xml`
+### 4.3 `activity_main.xml`
 - **Fragment**: `nav_host_fragment` (id = `R.id.nav_host_fragment`, name = `NavHostFragment`)
 - **BottomNavigationView**: `bottom_navigation` (id = `R.id.bottom_navigation`)
 
-### 4.5 `fragment_map.xml`
+### 4.4 `fragment_map.xml`
 - **SupportMapFragment**: `map` (id = `R.id.map`)
 - **FloatingActionButton**: `fab_add_report` (id = `R.id.fab_add_report`) – opens ReportFormActivity
 
-### 4.6 `activity_report_form.xml`
+### 4.5 `activity_report_form.xml`
 - **SupportMapFragment**: `map_picker` (id = `R.id.map_picker`) – user adjusts pin
 - **RadioGroup**: `radio_severity`
     - **RadioButton**: `radio_low` (text = "Low", checked by default)
@@ -97,12 +89,12 @@ MainActivity
 - **EditText**: `et_notes` (hint = "Notes (optional)")
 - **Button**: `btn_submit` (text = "Submit Report")
 
-### 4.7 `activity_edit_report.xml`
+### 4.6 `activity_edit_report.xml`
 Same structure as `activity_report_form.xml`, but:
 - Button is `btn_update` (text = "Update Report")
 - Pre‑filled from intent extra
 
-### 4.8 `bottom_sheet_report_detail.xml`
+### 4.7 `bottom_sheet_report_detail.xml`
 - **ImageView**: `iv_severity_icon` (optional, tinted marker icon)
 - **TextView**: `tv_severity`
 - **TextView**: `tv_distance`
@@ -113,7 +105,7 @@ Same structure as `activity_report_form.xml`, but:
 - **TextView**: `tv_votes`
 - **Button**: `btn_navigate` (text = "Navigate with Google Maps")
 
-### 4.9 `fragment_my_reports.xml`
+### 4.8 `fragment_my_reports.xml`
 - **RecyclerView**: `rv_my_reports` (id = `R.id.rv_my_reports`)
 
 **Item layout**: `item_my_report.xml`
@@ -121,7 +113,7 @@ Same structure as `activity_report_form.xml`, but:
 - **TextView**: `tv_item_notes`
 - **TextView**: `tv_item_timestamp`
 
-### 4.10 `fragment_profile.xml`
+### 4.9 `fragment_profile.xml`
 - **TextView**: `tv_display_name`
 - **TextView**: `tv_email`
 - **Switch**: `switch_alerts` (toggle “Enable Proximity Alerts”)
@@ -196,7 +188,6 @@ Define these in `res/values/colors.xml` and apply via `@color/…` where needed.
 | Activity (Main) | `app/src/main/java/com/roadguard/app/ui/main/MainActivity.java` |
 | Activity (Login) | `app/src/main/java/com/roadguard/app/ui/auth/LoginActivity.java` |
 | Activity (Register) | `app/src/main/java/com/roadguard/app/ui/auth/RegisterActivity.java` |
-| Activity (Forgot) | `app/src/main/java/com/roadguard/app/ui/auth/ForgotPasswordActivity.java` |
 | Fragment (Map) | `app/src/main/java/com/roadguard/app/ui/map/MapFragment.java` |
 | Fragment (My Reports) | `app/src/main/java/com/roadguard/app/ui/myreports/MyReportsFragment.java` |
 | Fragment (Profile) | `app/src/main/java/com/roadguard/app/ui/profile/ProfileFragment.java` |

@@ -4,13 +4,12 @@ RoadGuard is a community‑driven road hazard alert system for Android.
 Drivers report broken roads, potholes, or other dangers, and nearby users receive **spoken push notifications** so they can slow down – even without looking at the screen.
 
 This project is built with **Java**, **Firebase**, and a **Node.js Cloud Function**.  
-It follows the **MVVM** architecture and uses traditional Android views (no data‑binding).
+It follows the **MVVM** architecture.
 
 ---
 
 ## ✨ Features (Modified from the original brief)
 
-- **No image upload** – reports are pure text + location + severity.
 - **Text‑to‑Speech (TTS)** – when a notification arrives, the phone speaks the alert aloud.
 - **Periodic Wi‑Fi sync** – when you connect to Wi‑Fi, the app automatically downloads the latest hazards (like a cron job).
 - **Offline queue** – reports submitted without internet are stored locally and uploaded when back online.
@@ -51,15 +50,14 @@ com.roadguard.app/
 │ │ └── RoadGuardDatabase.java
 │ ├── remote/
 │ │ ├── AuthDataSource.java # FirebaseAuth + Google Sign-In
-│ │ ├── FirestoreDataSource.java # Firestore read/write methods
-│ │ └── (No Storage – images removed)
+│ │ └──FirestoreDataSource.java # Firestore read/write methods
 │ └── repository/
 │ ├── AuthRepository.java
 │ ├── ReportRepository.java
 │ └── UserRepository.java
 ├── model/ # POJOs (User, Report, Severity)
 ├── ui/
-│ ├── auth/ # Login, Register, ForgotPassword Activities + ViewModel
+│ ├── auth/ # Login, Register Activities + ViewModel
 │ ├── main/ # MainActivity (bottom nav host)
 │ ├── map/ # MapFragment, MapViewModel, SeverityClusterRenderer
 │ ├── report/ # ReportFormActivity, EditReportActivity, ReportViewModel

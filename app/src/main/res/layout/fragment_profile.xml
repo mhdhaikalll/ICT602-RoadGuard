@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Display Name -->
+        <TextView
+            android:id="@+id/tv_display_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray" />
+
+        <!-- Alerts Toggle -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Enable Proximity Alerts" />
+            <Switch
+                android:id="@+id/switch_alerts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- TTS Toggle (NEW) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Speak Alerts Aloud (TTS)" />
+            <Switch
+                android:id="@+id/switch_tts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Radius Selection -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alert Radius"
+            android:layout_marginTop="16dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_radius_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 km" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_radius_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 km" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_radius_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 km" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Logout Button -->
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Logout" />
+
+    </LinearLayout>
+
+</ScrollView>

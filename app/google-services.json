@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "524446087289",
+    "project_id": "ict602---group-project",
+    "storage_bucket": "ict602---group-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524446087289:android:33b551a2b8d8070d603ca8",
+        "android_client_info": {
+          "package_name": "com.example.ict602_groupproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI9azhPGT0xCgbysUCv-XZhDPjf1v5S84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524446087289:android:cc3b7e233fc2578f603ca8",
+        "android_client_info": {
+          "package_name": "com.example.roadguard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI9azhPGT0xCgbysUCv-XZhDPjf1v5S84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -15,3 +15,5 @@
 local.properties
 /functions/node_modules
 /functions/package.json
+firebase.json
+/app/google-services.json

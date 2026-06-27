@@ -2,6 +2,7 @@ package com.example.roadguard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.roadguard.ui.auth.LoginActivity;
+import com.example.roadguard.ui.auth.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
@@ -25,9 +27,15 @@ public class SplashActivity extends AppCompatActivity {
             return insets;
         });
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            startActivity(new Intent(this, MainActivity.class));
+            new Handler().postDelayed(() -> {
+                startActivity(new Intent(this, RegisterActivity.class));
+                finish();
+            }, 2000);
         } else {
-            startActivity(new Intent(this, LoginActivity.class));
+            new Handler().postDelayed(() -> {
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }, 2000);
         }
         finish();
     }

@@ -19,6 +19,15 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties localProperties = new Properties()
+        File localPropertiesFile = rootProject.file('local.properties')
+        if (localPropertiesFile.exists()) {
+            localProperties.load(new FileInputStream(localPropertiesFile))
+        }
+        // Expose as BuildConfig fields
+        buildConfigField "String", "MAPS_API_KEY", "\"${localProperties.getProperty('MAPS_API_KEY', '')}\""
+        buildConfigField "String", "GOOGLE_WEB_CLIENT_ID", "\"${localProperties.getProperty('GOOGLE_WEB_CLIENT_ID', '')}\""
     }
 
     buildTypes {

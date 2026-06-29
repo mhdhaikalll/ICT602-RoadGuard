@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Icon/Placeholder for severity -->
     <ImageView
         android:id="@+id/iv_severity_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/ic_hazard_marker"
-        android:tint="@color/severity_medium"
+        app:tint="@color/severity_high"
         android:layout_gravity="center_horizontal" />
 
     <TextView

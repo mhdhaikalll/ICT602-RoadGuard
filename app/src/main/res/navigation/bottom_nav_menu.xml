@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="com.roadguard.app.ui.map.MapFragment"
+        android:name="com.example.roadguard.ui.map.MapFragment"
         android:label="Map"
         tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_my_reports"
-        android:name="com.roadguard.app.ui.myreports.MyReportsFragment"
+        android:name="com.example.roadguard.ui.report.MyReportsFragment"
         android:label="My Reports"
         tools:layout="@layout/fragment_my_reports" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.roadguard.app.ui.profile.ProfileFragment"
+        android:name="com.example.roadguard.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 

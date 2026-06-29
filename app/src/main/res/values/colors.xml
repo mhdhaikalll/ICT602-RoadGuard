@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#FF6B35</color>
+    <color name="primary_dark">#C35A2B</color>
+    <color name="secondary">#FFC107</color>
+    <color name="background">#F5F5F5</color>
+    <color name="text_primary">#2C2C2C</color>
+    <color name="text_secondary">#757575</color>
+    <color name="error">#D32F2F</color>
     <color name="severity_low">#4CAF50</color>
     <color name="severity_medium">#FF9800</color>
     <color name="severity_high">#F44336</color>

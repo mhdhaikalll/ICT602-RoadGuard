@@ -1,5 +1,6 @@
 package com.example.roadguard.data.local.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,6 +9,7 @@ import com.example.roadguard.model.User;
 @Entity(tableName = "user_profile")
 public class UserProfile {
     @PrimaryKey
+    @NonNull
     public String uid;
     public String email;
     public String displayName;

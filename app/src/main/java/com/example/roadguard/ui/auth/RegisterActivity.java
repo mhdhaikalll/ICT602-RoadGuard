@@ -36,11 +36,11 @@ public class RegisterActivity extends AppCompatActivity {
             return insets;
         });
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        etName = (String) findViewById(R.id.et_name);
-        etEmail = (String) findViewById(R.id.et_email);
-        etPassword = (String) findViewById(R.id.et_password);
-        btnSubmit = (Button) findViewById(R.id.btn_submit);
-        tvLoginLink = (TextView) findViewById(R.id.tv_login_link);
+        etName = (EditText) findViewById(R.id.etName);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        btnSubmit = (Button) findViewById(R.id.btnRegister);
+        tvLoginLink = (TextView) findViewById(R.id.tvLoginLink);
 
         btnSubmit.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();

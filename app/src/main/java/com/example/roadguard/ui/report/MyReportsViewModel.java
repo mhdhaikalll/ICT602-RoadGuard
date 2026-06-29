@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.roadguard.data.local.entity.CachedReport;
 import com.example.roadguard.data.repository.ReportRepository;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -34,11 +36,12 @@ public class MyReportsViewModel extends AndroidViewModel {
     }
 
     public void loadReports() {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (uid == null) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
             errorMessage.setValue("Not logged in");
             return;
         }
+        String uid = currentUser.getUid();
         reportRepository.getUserReports(uid)
                 .addOnSuccessListener(querySnapshot -> {
                     List<CachedReport> list = new ArrayList<>();

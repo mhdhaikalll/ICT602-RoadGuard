@@ -9,12 +9,14 @@ import androidx.room.RoomDatabase;
 import com.example.roadguard.data.local.dao.CachedReportDao;
 import com.example.roadguard.data.local.dao.PendingReportDao;
 import com.example.roadguard.data.local.dao.UserProfileDao;
+import com.example.roadguard.data.local.entity.CachedReport;
+import com.example.roadguard.data.local.entity.PendingReport;
 import com.example.roadguard.data.local.entity.UserProfile;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {UserProfile.class}, version = 1, exportSchema = false)
+@Database(entities = {UserProfile.class, PendingReport.class, CachedReport.class}, version = 1, exportSchema = false)
 public abstract class RoadGuardDatabase extends RoomDatabase {
     public abstract UserProfileDao userProfileDao();
     public abstract PendingReportDao pendingReportDao();

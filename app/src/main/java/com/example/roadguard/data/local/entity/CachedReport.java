@@ -1,5 +1,6 @@
 package com.example.roadguard.data.local.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Entity(tableName = "cached_reports")
 public class CachedReport implements ClusterItem, Serializable {
     @PrimaryKey
+    @NonNull
     public String reportId;
     public String userId;
     public double latitude;

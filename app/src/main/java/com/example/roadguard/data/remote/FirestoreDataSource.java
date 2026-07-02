@@ -2,6 +2,8 @@ package com.example.roadguard.data.remote;
 
 import com.example.roadguard.model.User;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -11,6 +13,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,10 +80,24 @@ public class FirestoreDataSource {
     public Task<Void> updateReport(String reportId, Map<String, Object> updates) {
         return db.collection("reports").document(reportId).update(updates);
     }
-
+    public Task<Void> deleteReport(String reportId) {
+        return db.collection("reports").document(reportId).delete();
+    }
     public Task<Void> updateFCMToken(String uid, String token) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("fcmToken", token);
         return db.collection("users").document(uid).update(updates);
+    }
+
+    public static void updateFCMTokenForCurrentUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> {
+                    Map<String, Object> update = new HashMap<>();
+                    update.put("fcmToken", token);
+                    FirebaseFirestore.getInstance().collection("users").document(user.getUid())
+                            .update(update);
+                });
     }
 }

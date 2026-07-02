@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.roadguard.data.remote.FirestoreDataSource;
 import com.example.roadguard.data.repository.AuthRepository;
 import com.example.roadguard.model.User;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +27,8 @@ public class AuthViewModel extends AndroidViewModel {
     public void login(String email, String password) {
         authRepository.signIn(email, password)
                 .addOnSuccessListener(authResult -> {
+                    // After successful login
+                    FirestoreDataSource.updateFCMTokenForCurrentUser();
                     loginSuccess.setValue(true);
                 })
                 .addOnFailureListener(e -> {
@@ -37,6 +40,8 @@ public class AuthViewModel extends AndroidViewModel {
                 .addOnSuccessListener(authResult -> {
                     // Create user profile in Firestore
                     FirebaseUser firebaseUser = authResult.getUser();
+                    // After successful login
+                    FirestoreDataSource.updateFCMTokenForCurrentUser();
                     if (firebaseUser != null) {
                         User user = new User(firebaseUser.getUid(), email, displayName);
                         user.setAlertsEnabled(true);

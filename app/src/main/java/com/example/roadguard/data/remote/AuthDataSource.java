@@ -2,6 +2,7 @@ package com.example.roadguard.data.remote;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.roadguard.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -49,11 +50,23 @@ public class AuthDataSource {
 
     public Task<FirebaseUser> firebaseAuthWithGoogle(Intent data) {
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-        return task.continueWithTask(task1 -> {
-            GoogleSignInAccount account = task1.getResult(ApiException.class);
+        return task.continueWithTask(t -> {
+            if (!t.isSuccessful()) {
+                Log.e("GOOGLE_SIGN_IN", "getSignedInAccountFromIntent failed", t.getException());
+                throw t.getException();
+            }
+            GoogleSignInAccount account = t.getResult();
+            Log.d("GOOGLE_SIGN_IN", "Account email: " + account.getEmail());
             AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
             return auth.signInWithCredential(credential);
-        }).continueWith(task2 -> task2.getResult().getUser());
+        }).continueWith(t -> {
+            if (!t.isSuccessful()) {
+                Log.e("GOOGLE_SIGN_IN", "signInWithCredential failed", t.getException());
+                throw t.getException();
+            }
+            Log.d("GOOGLE_SIGN_IN", "signInWithCredential succeeded");
+            return t.getResult().getUser();
+        });
     }
 
     // optional: sign out from Google too

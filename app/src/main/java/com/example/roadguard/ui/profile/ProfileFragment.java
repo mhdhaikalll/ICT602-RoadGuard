@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.roadguard.R;
+import com.example.roadguard.data.repository.ReportRepository;
 import com.example.roadguard.ui.auth.LoginActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -49,7 +50,7 @@ public class ProfileFragment extends Fragment {
         chipRadius3 = root.findViewById(R.id.chip_radius_3);
         chipRadius5 = root.findViewById(R.id.chip_radius_5);
         btnLogout = root.findViewById(R.id.btn_logout);
-
+        ReportRepository.updateUserGeohash(requireContext());
         // Initialize ViewModel
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 

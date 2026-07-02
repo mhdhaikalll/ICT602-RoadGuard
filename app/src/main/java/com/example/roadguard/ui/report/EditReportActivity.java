@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
@@ -39,7 +40,7 @@ public class EditReportActivity extends AppCompatActivity implements OnMapReadyC
     private RadioGroup radioSeverity;
     private RadioButton radioLow, radioMedium, radioHigh;
     private EditText etNotes;
-    private Button btnUpdate;
+    private Button btnUpdate, btnDelete;
     private ReportRepository reportRepository;
 
     @Override
@@ -61,6 +62,7 @@ public class EditReportActivity extends AppCompatActivity implements OnMapReadyC
         radioHigh = findViewById(R.id.radio_high);
         etNotes = findViewById(R.id.et_notes);
         btnUpdate = findViewById(R.id.btn_update);
+        btnDelete = findViewById(R.id.btn_delete);
 
         // Pre-fill fields
         switch (report.severity) {
@@ -104,6 +106,24 @@ public class EditReportActivity extends AppCompatActivity implements OnMapReadyC
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
+        });
+
+        btnDelete.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Report")
+                    .setMessage("Are you sure you want to delete this report?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        reportRepository.deleteReport(report.reportId)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(this, "Report deleted", Toast.LENGTH_SHORT).show();
+                                    finish(); // go back to the list
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Delete failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
     }
 

@@ -6,14 +6,12 @@ const geofire = require('geofire-common');
 
 initializeApp();
 
-// Geohash precision for proximity queries
 const GEOHASH_PRECISION = 9;
 
-// Triggered when a new report is created in Firestore
 exports.sendProximityAlert = onDocumentCreated(
   {
     document: 'reports/{reportId}',
-    region: 'asia-southeast1'            // Required for Spark plan
+    region: 'asia-southeast1'
   },
   async (event) => {
     const report = event.data.data();
@@ -28,8 +26,8 @@ exports.sendProximityAlert = onDocumentCreated(
       return;
     }
 
-    // Calculate bounding box for 5 km radius (max user radius)
-    const center = geofire.geohashDecode(reportGeohash);
+    // Decode geohash to get latitude/longitude
+    const center = geofire.geohash.decode(reportGeohash);
     const radiusInM = 5000;
     const bounds = geofire.geohashQueryBounds(center, radiusInM);
 
@@ -50,10 +48,12 @@ exports.sendProximityAlert = onDocumentCreated(
     snapshots.forEach(snapshot => {
       snapshot.forEach(doc => {
         const user = doc.data();
-        const userCenter = geofire.geohashDecode(user.geohash);
+        if (!user.geohash || !user.fcmToken) return;
+
+        const userCenter = geofire.geohash.decode(user.geohash);
         const distance = distanceInKm(center, userCenter);
         const userRadius = user.notificationRadiusKm || 5;
-        if (distance <= userRadius && user.fcmToken) {
+        if (distance <= userRadius) {
           tokens.add(user.fcmToken);
         }
       });

@@ -2,12 +2,14 @@ package com.example.roadguard.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -74,5 +76,18 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Log.d("GOOGLE_SIGN_IN", "resultCode: " + resultCode + ", data null? " + (data == null));
+            if (resultCode == RESULT_OK && data != null) {
+                viewModel.handleGoogleSignInResult(data);
+            } else {
+                Log.e("GOOGLE_SIGN_IN", "Sign-in flow cancelled or failed");
+                Toast.makeText(this, "Auth Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

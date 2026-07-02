@@ -6,12 +6,10 @@ const geofire = require('geofire-common');
 
 initializeApp();
 
-const GEOHASH_PRECISION = 9;
-
 exports.sendProximityAlert = onDocumentCreated(
   {
     document: 'reports/{reportId}',
-    region: 'asia-southeast1'
+    region: 'asia-southeast1'            // or 'us-central1'
   },
   async (event) => {
     const report = event.data.data();
@@ -20,27 +18,27 @@ exports.sendProximityAlert = onDocumentCreated(
       return;
     }
 
-    const reportGeohash = report.geohash;
-    if (!reportGeohash) {
-      console.log('No geohash in report, skipping');
+    const reportLat = report.latitude;
+    const reportLng = report.longitude;
+    if (reportLat == null || reportLng == null) {
+      console.log('Report missing coordinates');
       return;
     }
 
-    // Decode geohash to get latitude/longitude
-    const center = geofire.geohash.decode(reportGeohash);
-    const radiusInM = 5000;
+    const center = [reportLat, reportLng];
+    const radiusInKm = 5;   // search up to 5 km (max user radius)
+    const radiusInM = radiusInKm * 1000;   // geohashQueryBounds expects metres
     const bounds = geofire.geohashQueryBounds(center, radiusInM);
 
     const db = getFirestore();
-    const promises = [];
-    for (const b of bounds) {
-      const q = db.collection('users')
-        .where('geohash', '>=', b[0])
-        .where('geohash', '<=', b[1])
+    const promises = bounds.map(([start, end]) =>
+      db.collection('users')
         .where('alertsEnabled', '==', true)
-        .get();
-      promises.push(q);
-    }
+        .orderBy('geohash')
+        .startAt(start)
+        .endAt(end)
+        .get()
+    );
 
     const snapshots = await Promise.all(promises);
     const tokens = new Set();
@@ -48,12 +46,17 @@ exports.sendProximityAlert = onDocumentCreated(
     snapshots.forEach(snapshot => {
       snapshot.forEach(doc => {
         const user = doc.data();
-        if (!user.geohash || !user.fcmToken) return;
+        if (!user.fcmToken) return;
 
-        const userCenter = geofire.geohash.decode(user.geohash);
-        const distance = distanceInKm(center, userCenter);
+        const userLat = user.lastLatitude;   // must match Firestore field name
+        const userLng = user.lastLongitude;
+        if (userLat == null || userLng == null) return;
+
+        const userCenter = [userLat, userLng];
+        const distanceInKm = geofire.distanceBetween(center, userCenter);   // already in km
         const userRadius = user.notificationRadiusKm || 5;
-        if (distance <= userRadius) {
+
+        if (distanceInKm <= userRadius) {
           tokens.add(user.fcmToken);
         }
       });
@@ -72,8 +75,8 @@ exports.sendProximityAlert = onDocumentCreated(
       },
       data: {
         reportId: event.params.reportId,
-        latitude: String(report.latitude),
-        longitude: String(report.longitude),
+        latitude: String(reportLat),
+        longitude: String(reportLng),
         severity: report.severity
       }
     };
@@ -85,13 +88,12 @@ exports.sendProximityAlert = onDocumentCreated(
     });
 
     console.log('Successfully sent notifications:', response.successCount);
-    // Optional: clean invalid tokens
-    response.responses.forEach((resp, idx) => {
+    response.responses.forEach((resp) => {
       if (!resp.success) {
         const code = resp.error?.code;
         if (code === 'messaging/invalid-registration-token' ||
             code === 'messaging/registration-token-not-registered') {
-          // TODO: remove invalid token from Firestore
+          // TODO: optionally clean up expired token
         }
       }
     });
@@ -104,18 +106,4 @@ function severityLabel(severity) {
     case 'medium': return 'Moderate';
     default: return 'Minor';
   }
-}
-
-function distanceInKm(coord1, coord2) {
-  const R = 6371;
-  const dLat = toRad(coord2.latitude - coord1.latitude);
-  const dLon = toRad(coord2.longitude - coord1.longitude);
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(coord1.latitude)) * Math.cos(toRad(coord2.latitude)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
-function toRad(degrees) {
-  return degrees * Math.PI / 180;
 }
